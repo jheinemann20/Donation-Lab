@@ -4,7 +4,7 @@ import java.util.Scanner;
 class DonationRunner {
 
     private static Scanner myScan;
-    private static String[][] donations;
+    private static ArrayList<ArrayList<String>> donations;
     private static Silver mySilver;
     private static Gold myGold;
     private static Platinum myPlatinum;
@@ -15,8 +15,8 @@ class DonationRunner {
         System.out.println("Enter donation amount ($100, $500, $1000) --> ");
         String donationAmount = myScan.nextLine();
 
-        donations[1][donations[1].length] = donorName;
-        donations[2][donations[2].length] = donationAmount;
+        donations.get(0).add(donorName);
+        donations.get(1).add(donationAmount);
 
         System.out.println("Enter Another [Y/N]? ");
         if (myScan.nextLine().equals("Y"))
@@ -27,22 +27,25 @@ class DonationRunner {
 
     public static void main(String[] args) {
         myScan = new Scanner(System.in);
-        donations = new String[2][1084];
+        donations = new ArrayList<ArrayList<String>>();
+        donations.add(new ArrayList<String>());
+        donations.add(new ArrayList<String>());
+
         donate();
 
         System.out.println("Summary of Donations\n====================");
-        for (int i = 0; i < donations[1].length; i++) {
-            if (donations[2][i].equals("$100")) {
-                mySilver = new Silver(donations[1][i]);
+        for (int i = 0; i < donations.get(0).size(); i++) {
+            if (donations.get(1).get(i).equals("$100")) {
+                mySilver = new Silver(donations.get(0).get(i));
                 System.out.println(mySilver.toString() + "\n");
-            } else if (donations[2][i].equals("$500")) {
-                myGold = new Gold(donations[1][i]);
+            } else if (donations.get(1).get(i).equals("$500")) {
+                myGold = new Gold(donations.get(0).get(i));
                 System.out.println(myGold.toString() + "\n");
-            } else if (donations[2][i].equals("$1000")) {
-                myPlatinum = new Platinum(donations[1][i]);
+            } else if (donations.get(1).get(i).equals("$1000")) {
+                myPlatinum = new Platinum(donations.get(0).get(i));
                 System.out.println(myPlatinum.toString() + "\n");
             } else {
-                System.out.println("Donation Error: " + donations[2][i] + "\n");
+                System.out.println("Donation Error: " + donations.get(1).get(i) + "\n");
             }
         }
     }
